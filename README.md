@@ -33,7 +33,7 @@ Learning embedded systems, MQTT, RTOS, and Node-RED
 
 [Node-RED](https://nodered.org/docs/getting-started/raspberrypi): for data logging and further analytics/integrations
 
-[Mosquitto MQTT Broker](https://mosquitto.org/download/); for MQTT messaging between devices
+[Mosquitto MQTT Broker](https://mosquitto.org/download/): for MQTT messaging between devices
 
 ## Hardware
 ESP32-S3 N16R8 WROOM - https://www.amazon.com/dp/B0D93DLB6Q ⚠️ ESP32 Model must have PSRAM ⚠️
@@ -61,7 +61,7 @@ Breadboard + Male to Male Dupont wires (for prototyping) - https://www.amazon.co
 
 0.1uF ceramic and 100uF electrolytic capacitors (bypass capacitors for amp sound quality) - Just find some cheap ones it's not rocket science
 
-Raspberry Pi Zero 2 W (to host a Node-RED server and MQTT broker for logging data) - https://www.amazon.com/dp/B0DRRRZBMP this kit does not come with power adaptor
+Raspberry Pi Zero 2 W (to host a [Node-RED](https://nodered.org/docs/getting-started/raspberrypi) server and [MQTT Broker](https://mosquitto.org/download/) for logging data) - https://www.amazon.com/dp/B0DRRRZBMP this kit does not come with power adaptor
 
 ## Installation
 
