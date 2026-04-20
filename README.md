@@ -67,6 +67,61 @@ Raspberry Pi Zero 2 W (to host a [Node-RED](https://nodered.org/docs/getting-sta
 
 Included is a `Dog_Buttons.ino` file that needs to be uploaded to your ESP32 using the [Arduino IDE](https://www.arduino.cc/en/software/) (check images below for settings). There are also two example audio files `treat.wav` and `outside.wav` that need to be loaded onto the root `/` directory of the Micro SD Card.
 
+⚠️ IMPORTANT: You will need to install the [ESP32-audioI2S Library](https://github.com/schreibfaul1/ESP32-audioI2S) into your Arduino IDE for the sketch to function correctly. You can either clone it into your Arduino Libraries folder or just download it as a ZIP file. If you grab the ZIP file, you can add it to your Arduino IDE using the Add ZIP Library item on the Sketch menu. And if you haven't worked with ESP32 boards in Arduino IDE yet, you'll need to follow this [tutorial](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/) to install the ESP32 Add-on for them to work. 
+
+## Node-RED and Mosquitto MQTT Broker
+Is a low-code programming platform built on JavaScript that makes it easy for beginners and professionals alike to rapidly prototype their ideas into fully functional projects with a focus on event driven applications.
+
+You can [host a local Node-RED server using a Raspberry Pi](https://nodered.org/docs/getting-started/raspberrypi) (I used a Zero 2 W) and host a [Mosquitto MQTT Broker](https://mosquitto.org/download/) to log data from an ESP32 to track patterns and behavior trends over time, visualize button usage, and trigger smarthome automations.
+
+### The commands to install Node-RED are:
+
+```bash
+# Installation script
+bash <(curl -sL https://github.com/node-red/linux-installers/releases/latest/download/update-nodejs-and-nodered-deb)
+
+# If you want Node-RED to run when the device is turned on, or re-booted, you can enable the service to autostart by running
+sudo systemctl enable nodered.service
+```
+
+Once Node-RED is running you can access the editor in a browser.
+
+If you are using the browser on the Pi desktop, you can open the address: http://localhost:1880
+
+If you are using another devices browser replace localhost with the IP address of your Raspberry Pi running Node-RED. You can find the IP address by running `hostname -I` on the Pi.
+
+### The commands to install Mosquitto are:
+
+```bash
+# Installation script
+sudo apt install -y mosquitto mosquitto-clients
+
+# Run as a service at start
+sudo systemctl enable mosquitto.service
+
+# Test the installation
+mosquitto -v
+
+# By default connections will only be possible from clients running on this machine, so you will need to enable remote access
+# Run the following command to open the mosquitto.conf file
+sudo nano /etc/mosquitto/mosquitto.conf
+
+#Move to the end of the file using the arrow keys and paste the following two lines:
+listener 1883
+allow_anonymous true
+# Then, press CTRL-X to exit and save the file. Press Y and Enter
+ 
+# Restart Mosquitto for the changes to take effect
+sudo systemctl restart mosquitto
+```
+For more detailed instructions on installing and setting up Mosquitto check out this [tutorial](https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/).
+
+[Instructions for Importing and Exporting Flows in Node-RED](https://nodered.org/docs/user-guide/editor/workspace/import-export)
+
+Included is a `flow.json` file that will get you logging data very quickly.
+
+⚠️ NOTE: You will need to configure the MQTT node in the flow to match your [Mosquitto MQTT Broker's](https://mosquitto.org/download/) settings. You can also change the logfile name and path in the flow using the built-in [Node-RED editor](https://nodered.org/docs/user-guide/editor/).
+
 ## Wiring Overview
 | Component | ESP32 Pin |
 | --------- | --------- |
@@ -82,8 +137,10 @@ Included is a `Dog_Buttons.ino` file that needs to be uploaded to your ESP32 usi
 | LED 1     | GPIO 5    |
 | LED 2     | GPIO 9    |
 
+If you wire it differently, be sure to update the code with the pins you used.
+
 ## Configuration
-Update these values in the code to match your Wi-Fi and [MQTT Broker](https://mosquitto.org/download/) settings:
+⚠️ IMPORTANT: Update these values in the code to match your Wi-Fi and [MQTT Broker](https://mosquitto.org/download/) settings:
 ```cpp
 // WiFi
 const char* ssid = "SSID";
@@ -120,17 +177,6 @@ Channels: Mono
 19/04/2026, 18:47:13, "treat" was pressed
 19/04/2026, 18:48:51, "outside" was pressed
 ```
-
-## Node-RED
-Is a low-code programming platform built on JavaScript that makes it easy for beginners and professionals alike to rapidly prototype their ideas into fully functional projects with a focus on event driven applications.
-
-You can host a local [Node-RED server using a Raspberry Pi](https://nodered.org/docs/getting-started/raspberrypi) (I used a Zero 2 W) and host a [Mosquitto MQTT Broker](https://mosquitto.org/download/) to log data from an ESP32 to track patterns and behavior trends over time, visualize button usage, and trigger smarthome automations.
-
-[Instructions for Importing and Exporting Flows in Node-RED](https://nodered.org/docs/user-guide/editor/workspace/import-export)
-
-Included is a `flow.json` file that will get you logging data very quickly.
-
-⚠️ NOTE: You will need to configure the MQTT node in the flow to match your [Mosquitto MQTT Broker's](https://mosquitto.org/download/) settings. You can also change the logfile name and path in the flow using the built-in [Node-RED editor](https://nodered.org/docs/user-guide/editor/).
 
 ## Images
 ### Dog Buttons
