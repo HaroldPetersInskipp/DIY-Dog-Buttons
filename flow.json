@@ -1,0 +1,158 @@
+[
+    {
+        "id": "7e41251c031caa2f",
+        "type": "tab",
+        "label": "DogLog",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2d61d54806c8f90b",
+        "type": "mqtt in",
+        "z": "7e41251c031caa2f",
+        "name": "",
+        "topic": "dog/buttons",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "48c3206248537c46",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 60,
+        "wires": [
+            [
+                "35c35f54a640b3f4"
+            ]
+        ]
+    },
+    {
+        "id": "eafdefb727e7574d",
+        "type": "debug",
+        "z": "7e41251c031caa2f",
+        "name": "debug 431",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1310,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "35c35f54a640b3f4",
+        "type": "split",
+        "z": "7e41251c031caa2f",
+        "name": "split batch uploads",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 270,
+        "y": 60,
+        "wires": [
+            [
+                "4749639d00ca619d"
+            ]
+        ]
+    },
+    {
+        "id": "a2045d5ad1d53854",
+        "type": "file",
+        "z": "7e41251c031caa2f",
+        "name": "",
+        "filename": "/home/pi/temp/DogLog/Buttons.log",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1080,
+        "y": 60,
+        "wires": [
+            [
+                "eafdefb727e7574d"
+            ]
+        ]
+    },
+    {
+        "id": "4749639d00ca619d",
+        "type": "function",
+        "z": "7e41251c031caa2f",
+        "name": "handle lack of NTP connection or add milliseconds and format log message",
+        "func": "if (msg.payload.time < 1776601548) {\n    msg.payload.time = new Date();\n} else {\n    msg.payload.time = (msg.payload.time * 1000);\n}\nmsg.payload.time = new Date(msg.payload.time).toLocaleString();\nmsg.payload = `${msg.payload.time}, \"${msg.payload.event}\" was pressed`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 60,
+        "wires": [
+            [
+                "a2045d5ad1d53854"
+            ]
+        ]
+    },
+    {
+        "id": "b1506c5ece2a20ad",
+        "type": "comment",
+        "z": "7e41251c031caa2f",
+        "name": "You can change filename and path of logfile in the node below",
+        "info": "",
+        "x": 1080,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "59efbf2bd0c7e211",
+        "type": "comment",
+        "z": "7e41251c031caa2f",
+        "name": "MQTT input",
+        "info": "",
+        "x": 90,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "48c3206248537c46",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.50.40",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
