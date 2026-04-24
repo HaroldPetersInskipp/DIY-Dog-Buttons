@@ -5,6 +5,14 @@ This project is inspired by commercial dog communication buttons, but built from
 
 Train your dog to “talk” using buttons while collecting real usage data for analysis, automation, or just curiosity.
 
+### Prototype demo
+[![Prototype demo](https://img.youtube.com/vi/20AYtqZYDEI/maxresdefault.jpg)](https://www.youtube.com/watch?v=20AYtqZYDEI)
+
+### Dog using buttons
+[![Dog using buttons](https://img.youtube.com/vi/1tW9sytlCj8/maxresdefault.jpg)](https://www.youtube.com/watch?v=1tW9sytlCj8)
+
+For training tips to teach your dog to use them, visit my [youtube channel](https://www.youtube.com/@TheBanndit)
+
 ## Description
 This project allows your dog to press physical buttons that:
 
